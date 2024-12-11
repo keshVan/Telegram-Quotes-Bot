@@ -1,4 +1,4 @@
-package org.example;
+package ru.kornilaev.service;
 
 import org.json.JSONObject;
 
@@ -31,7 +31,7 @@ public class QuoteService {
         return "Ошибка при получении цитаты";
     }
 
-    private static String parseQuote(String response) {
+    public static String parseQuote(String response) {
         StringBuilder out = new StringBuilder("«");
 
         JSONObject quote = new JSONObject(response);
