@@ -14,7 +14,7 @@ public class Database {
     }
 
     public void addUser(long userId) {
-        String query = "INSERT INTO users (user_id, curr_index) VALUES (?, ?)";
+        String query = "INSERT OR IGNORE INTO users (user_id, curr_index) VALUES (?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, userId);
@@ -27,7 +27,7 @@ public class Database {
     }
 
     public void addFavoriteQuote(long userId, String quote, String author) {
-        String query = "INSERT INTO favorites (user_id, quote, author) VALUES (?, ?, ?)";
+        String query = "INSERT OR IGNORE INTO favorites (user_id, quote, author) VALUES (?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setLong(1, userId);

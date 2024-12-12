@@ -136,25 +136,25 @@ public class QuotesBotService extends TelegramLongPollingBot {
             String[] message = update.getCallbackQuery().getMessage().getText().split("\n");
 
             switch (callData) {
-                case "add":
+                case "ADD":
                     editKeyboard(chatId, messageId, removeFromFavoritesButton);
                     database.addFavoriteQuote(userId, message[0], message[2]);
                     break;
-                case "remove":
+                case "REMOVE":
                     editKeyboard(chatId, messageId, addToFavoritesButton);
                     database.removeFromFavorites(userId, message[0], message[2]);
                     break;
-                case "next_quote":
+                case "NEXT_QUOTE":
                     editFavoriteMenu(chatId, messageId, userId, callData);
                     break;
-                case "prev_quote":
+                case "PREV_QUOTE":
                     editFavoriteMenu(chatId, messageId, userId, callData);
                     break;
-                case "remove_in_menu":
+                case "REMOVE_FROM_MENU":
                     editMenuKeyboard(chatId, messageId, userId, callData);
                     database.removeFromFavorites(userId, message[0], message[2]);
                     break;
-                case "add_in_menu":
+                case "ADD_FROM_MENU":
                     editMenuKeyboard(chatId, messageId, userId, callData);
                     database.addFavoriteQuote(userId, message[0], message[2]);
                     break;
@@ -166,7 +166,7 @@ public class QuotesBotService extends TelegramLongPollingBot {
     public void sendMessages() {
         List<Long> usersId = database.getUsersId();
         for (Long id : usersId) {
-            sendMessage(id, QuoteService.getRandomQuote(), removeFromFavoritesButton);
+            sendMessage(id, QuoteService.getRandomQuote(), addToFavoritesButton);
         }
     }
 
@@ -244,7 +244,7 @@ public class QuotesBotService extends TelegramLongPollingBot {
         EditMessageReplyMarkup newKb = EditMessageReplyMarkup.builder().chatId(chatId.toString()).messageId(messageId).build();
 
         switch (data) {
-            case "next_quote":
+            case "NEXT_QUOTE":
                 database.updateIndex(userId, currIndex + 1);
                 newTxt.setText(database.getFavoriteQuote(userId, currIndex + 1));
 
@@ -255,7 +255,7 @@ public class QuotesBotService extends TelegramLongPollingBot {
                 }
                 break;
 
-            case "prev_quote":
+            case "PREV_QUOTE":
                 database.updateIndex(userId, currIndex - 1);
                 newTxt.setText(database.getFavoriteQuote(userId, currIndex - 1));
                 if (currIndex - 1 == 0) {
